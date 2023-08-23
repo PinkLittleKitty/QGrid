@@ -214,10 +214,10 @@ function isRed() {
 }
 
 function logToConsole(message) {
-    debugConsole.innerHTML += `<p>${message}</p>`; // Append a new line to the console
-    debugConsole.scrollTop = debugConsole.scrollHeight; // Scroll to the bottom of the console
+    debugConsole.innerHTML += `<p>${message}</p>`;
+    debugConsole.scrollTop = debugConsole.scrollHeight;
 }
 
 function clearConsole() {
-    debugConsole.innerHTML = ''; // Clear the console content
+    debugConsole.innerHTML = '';
 }
