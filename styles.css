@@ -1,0 +1,77 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.controls {
+    width: 30%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    overflow: auto;
+}
+
+.controls textarea {
+    height: 500px;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(20, 30px);
+    gap: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.text-area {
+    padding: 20px;
+    flex: 1;
+    border-right: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#textInput {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+}
+
+.grid-item {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
