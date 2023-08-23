@@ -7,14 +7,21 @@
     <title>QGrid</title>
 </head>
 <body>
-    <div class="container">
-        <div class="controls" id="controls" style="display: none;">
+    <div class="setup-button" id="setup-button">Crear Grid</div>
+    <div class="grid-container" id="gridContainer"></div>
+
+    <div class="container" id="controls">
+        <div class="controls-container">
             <textarea id="textInput" placeholder="Escribí las acciones acá"></textarea>
             <button id="sendButton">Ejecutar</button>
+        </div>
+        <div class="procedure-container" id="procedure">
+            <textarea id="procedureEditor" placeholder="Escribí los Procedimientos acá"></textarea>
+            <button id="createProcedureButton">Crear Procedimiento</button>
+            <button id="saveButton">Guardar</button>
+            <input type="file" id="fileInput" accept=".txt">
             <div id="commandQueue"></div>
         </div>
-        <button id="setupButton">Crear Grid</button>
-        <div class="grid-container" id="gridContainer"></div>
     </div>
     <div class="overlay" id="overlay">
         <div class="popup">
@@ -29,7 +36,6 @@
         </div>
     </div>
     <div class="debug-controls">
-        <button id="toggleConsole">Consola</button>
         <button id="clearConsole">Limpiar Consola</button>
     </div>
     <div class="debug-console" id="debugConsole"></div>
