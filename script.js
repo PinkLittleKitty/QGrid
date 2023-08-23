@@ -1,24 +1,34 @@
 const resizeButton = document.getElementById('resizeButton');
 const sendButton = document.getElementById('sendButton');
 const textInput = document.getElementById('textInput');
-const setupButton = document.getElementById('setupButton');
+const setupButton = document.getElementById('setup-button');
 const setupConfirmButton = document.getElementById('setupConfirm');
 const overlay = document.getElementById('overlay');
 const rowsInput = document.getElementById('rows');
 const colsInput = document.getElementById('cols');
 const controls = document.getElementById('controls');
+const procedure = document.getElementById('procedure')
 const gridContainer = document.getElementById('gridContainer');
 const commandQueue = document.getElementById('commandQueue');
 const debugConsole = document.getElementById('debugConsole');
-const toggleConsoleButton = document.getElementById('toggleConsole');
 const clearConsoleButton = document.getElementById('clearConsole');
+const createProcedureButton = document.getElementById('createProcedureButton');
+const procedures = {};
 let gridInitialized = false;
 let isPainting = false;
 let currentSquareIndex = 0;
 
+const saveButton = document.getElementById('saveButton');
+const fileInput = document.getElementById('fileInput');
+fileInput.addEventListener('change', handleFileSelect);
+saveButton.addEventListener('click', saveToFile);
 
-toggleConsoleButton.addEventListener('click', () => {
-    debugConsole.classList.toggle('hidden');
+createProcedureButton.addEventListener('click', () => {
+    createProcedure();
+});
+
+sendButton.addEventListener('click', () => {
+    processCommands();
 });
 
 clearConsoleButton.addEventListener('click', () => {
@@ -27,6 +37,7 @@ clearConsoleButton.addEventListener('click', () => {
 
 setupButton.addEventListener('click', () => {
     overlay.style.display = 'flex';
+    setupButton.style.display = 'none';
 });
 
 setupConfirmButton.addEventListener('click', () => {
@@ -39,8 +50,6 @@ setupConfirmButton.addEventListener('click', () => {
             gridInitialized = true;
         }
         overlay.style.display = 'none';
-        setupButton.style.display = 'none';
-        controls.style.display = 'block';
     } else {
         logToConsole('Por favor, poné dimensiones válidas.');
     }
@@ -71,14 +80,10 @@ function clearSquareBorders() {
     }
 }
 
-
-sendButton.addEventListener('click', () => {
-    processCommands();
-});
-
 function processCommands() {
     const commands = textInput.value.split('\n');
     const repeatedCommands = [];
+    currentSquare = null; // Reiniciar el cuadradito actual antes de procesarlo.
 
     for (const command of commands) {
         const trimmedCommand = command.trim();
@@ -105,7 +110,6 @@ function processCommands() {
     }
 
     executeCommands(repeatedCommands);
-    textInput.value = '';
     adjustControlsHeight();
 }
 
@@ -129,25 +133,15 @@ function executeCommands(commands) {
             paintRed();
         } else if (command === 'EsNegro?') {
             
+        }else if (command.startsWith('Procedimiento ')) {
+            createProcedure(command);
+        } else if (procedures.hasOwnProperty(command + ' {')) {
+            executeCustomProcedure(command + ' {');
         } else {
             logToConsole(`Comando desconocido: ${command}`);
         }
     }
 }
-
-function adjustControlsHeight() {
-    textInput.style.height = 'auto';
-    textInput.style.height = textInput.scrollHeight + 'px';
-}
-
-textInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        textInput.value += '\n';
-        adjustControlsHeight();
-    }
-});
-
 
 function moveRight() {
     if (currentSquareIndex < gridContainer.children.length - 1) {
@@ -198,19 +192,19 @@ function paintRed() {
 }
 
 function isBlack() {
-
+    logToConsole("Aún no implementado");
 }
 
 function isGreen() {
-
+    logToConsole("Aún no implementado");
 }
 
 function isWhite() {
-    
+    logToConsole("Aún no implementado");
 }
 
 function isRed() {
-    
+    logToConsole("Aún no implementado");
 }
 
 function logToConsole(message) {
@@ -220,4 +214,77 @@ function logToConsole(message) {
 
 function clearConsole() {
     debugConsole.innerHTML = '';
+}
+
+function createProcedure() {
+    const procedureCode = procedureEditor.value.trim();
+    const lines = procedureCode.split('\n');
+    const procedureName = lines[0].trim().replace('Procedimiento ', '');
+
+    procedures[procedureName] = lines.slice(1, lines.length - 1);
+    logToConsole(`Se creó el Procedimiento ${procedureName}`);
+}
+
+function executeCustomProcedure(procedureName) {
+    const procedureCommands = procedures[procedureName];
+    executeCommands(procedureCommands);
+}
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const fileContent = event.target.result;
+            processLoadedContent(fileContent);
+        };
+        reader.readAsText(file);
+    }
+}
+
+function processLoadedContent(content) {
+    const commandsAndProcedures = content.split('\n\n');
+
+    const commands = commandsAndProcedures[0].trim();
+    textInput.value = commands;
+
+    procedureEditor.value = '';
+    for (let i = 1; i < commandsAndProcedures.length; i++) {
+        const procedureDefinition = commandsAndProcedures[i].trim();
+        if (procedureDefinition.startsWith('Procedimiento')) {
+            const lines = procedureDefinition.split('\n');
+            const procedureName = lines[0].replace('Procedimiento', '').trim();
+            const procedureCode = lines.slice(1).join('\n');
+
+            procedures[procedureName] = procedureCode.split('\n');
+            procedureEditor.value += `${procedureName}\n${procedureCode}\n`;
+        }
+    }
+}
+
+function saveToFile() {
+    const content = generateSaveContent();
+    const blob = new Blob([content], { type: 'text/plain' });
+    const fileName = 'MiCodigoQGrid.txt';
+
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function generateSaveContent() {
+    let content = textInput.value + '\n\n';
+
+    for (const procedureName in procedures) {
+        if (procedures.hasOwnProperty(procedureName)) {
+            const procedureCode = procedures[procedureName].join('\n');
+            content += `Procedimiento ${procedureName}\n${procedureCode}\n}\n\n`;
+        }
+    }
+
+    return content;
 }
