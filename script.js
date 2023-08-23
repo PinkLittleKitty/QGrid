@@ -9,9 +9,21 @@ const colsInput = document.getElementById('cols');
 const controls = document.getElementById('controls');
 const gridContainer = document.getElementById('gridContainer');
 const commandQueue = document.getElementById('commandQueue');
+const debugConsole = document.getElementById('debugConsole');
+const toggleConsoleButton = document.getElementById('toggleConsole');
+const clearConsoleButton = document.getElementById('clearConsole');
 let gridInitialized = false;
 let isPainting = false;
 let currentSquareIndex = 0;
+
+
+toggleConsoleButton.addEventListener('click', () => {
+    debugConsole.classList.toggle('hidden');
+});
+
+clearConsoleButton.addEventListener('click', () => {
+    clearConsole();
+});
 
 setupButton.addEventListener('click', () => {
     overlay.style.display = 'flex';
@@ -30,7 +42,7 @@ setupConfirmButton.addEventListener('click', () => {
         setupButton.style.display = 'none';
         controls.style.display = 'block';
     } else {
-        alert('Please enter valid grid dimensions.');
+        logToConsole('Por favor, poné dimensiones válidas.');
     }
 });
 
@@ -116,7 +128,9 @@ function executeCommands(commands) {
         } else if (command === 'PintarRojo()') {
             paintRed();
         } else if (command === 'EsNegro?') {
-            const isBlack = checkIfCurrentSquareIsBlack();
+            
+        } else {
+            logToConsole(`Comando desconocido: ${command}`);
         }
     }
 }
@@ -183,11 +197,8 @@ function paintRed() {
     gridContainer.children[currentSquareIndex].style.backgroundColor = 'red';
 }
 
-function checkIfCurrentSquareIsBlack() {
-    if (gridContainer.children[currentSquareIndex].style.backgroundColor = 'black') {
-        return true;
-    }
-    return false;
+function isBlack() {
+
 }
 
 function isGreen() {
@@ -200,4 +211,13 @@ function isWhite() {
 
 function isRed() {
     
+}
+
+function logToConsole(message) {
+    debugConsole.innerHTML += `<p>${message}</p>`; // Append a new line to the console
+    debugConsole.scrollTop = debugConsole.scrollHeight; // Scroll to the bottom of the console
+}
+
+function clearConsole() {
+    debugConsole.innerHTML = ''; // Clear the console content
 }
