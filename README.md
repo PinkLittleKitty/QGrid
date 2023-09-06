@@ -3,7 +3,9 @@
 English:
 
 This is a Simulation/Interpreter to display UNQ's own teaching language, called QDraw.
+
 You can use the following Instructions:
+
 -MoverDerecha(): To move Right.
 -MoverIzquierda(): To move Left.
 -MoverArriba(): To move Up.
@@ -18,7 +20,9 @@ You can use the following Instructions:
 Español:
 
 Esto es un Simulador/Interpretador para mostrar el lenguage de enseñanza propio de la UNQ, llamado QDraw.
+
 Se pueden usar las siguientes instrucciones:
+
 -MoverDerecha(): Moverse a la Derecha.
 -MoverIzquierda(): Moverse a la Izquierda.
 -MoverArriba(): Moverse Arriba.
