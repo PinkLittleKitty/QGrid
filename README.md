@@ -1,6 +1,7 @@
 # QGrid
 
 English:
+
 This is a Simulation/Interpreter to display UNQ's own teaching language, called QDraw.
 You can use the following Instructions:
 -MoverDerecha(): To move Right.
@@ -13,7 +14,9 @@ You can use the following Instructions:
 -PintarVerde(): To paint the current cell Green.
 -Repetir(number) {}: It'll repeat the specified number of times everything inside its curly brackets.
 
+
 Español:
+
 Esto es un Simulador/Interpretador para mostrar el lenguage de enseñanza propio de la UNQ, llamado QDraw.
 Se pueden usar las siguientes instrucciones:
 -MoverDerecha(): Moverse a la Derecha.
@@ -30,3 +33,4 @@ Se pueden usar las siguientes instrucciones:
 To-Do:
 -Clean Up the UI (And make it prettier)
 -Add conditionals with "Si(boolean) Entonces {}"
+-Step by Step excecution.
