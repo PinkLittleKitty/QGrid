@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body {
+    padding-top: 50px;
+}
+
 .setup-button {
     display: flex;
     justify-content: center;
@@ -23,24 +27,48 @@
 /* Estilo para los contenedores principales */
 .container {
     display: flex;
+    flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     background-color: #f0f0f0;
     overflow: auto;
+}
+
+.controls-container, .procedure-container {
+    display: flex;
     flex-direction: column;
 }
 
-/* Estilo para los contenedores de controles y procedimientos */
-.controls-container, .procedure-container {
-    width: 50%;
-    padding-right: 10px;
-    box-sizing: auto;
+.colored-bar {
+    background-color: #9B2323;
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-/* Estilo del contenedor de la Grid */
+.title {
+    font-size: 24px;
+    color: white;
+    margin-left: 20px;
+}
+
+#sendButton {
+    width: 50%;
+    margin: 20px auto;
+    display: block;
+}
+
 .grid-container {
     width: 50%;
+    margin: 20px auto;
+    float: right;
     display: grid;
     grid-template-columns: repeat(20, 30px);
     gap: 0;
@@ -49,20 +77,41 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
-    float: right;
 }
 
-.controls textarea {
-    height: auto;
-    min-height: 100px;
+
+
+#textInput,
+#procedureEditor {
+    position: relative;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    padding: 10px;
+    width: 100%;
+    min-height: 300px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    color: #333;
+    line-height: 1.5;
     resize: vertical;
+    border-radius: 5px;
+    overflow-x: hidden;
 }
 
-.procedure textarea {
-    height: auto;
-    min-height: 100px;
-    resize: vertical;
+#textInput::selection,
+#procedureEditor::selection {
+    background-color: #0078d4;
+    color: #fff;
 }
+
+
+#textInput::-moz-selection,
+#procedureEditor::-moz-selection {
+    background-color: #0078d4;
+    color: #fff;
+}
+
 
 .text-area {
     padding: 20px;
